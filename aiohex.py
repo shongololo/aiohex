@@ -39,13 +39,12 @@ class AIOHex:
             visited = set()
             # recursive function def
             async def inner_trace(inner_depth, trigger_links):
-                nonlocal key_relation
                 if inner_depth == 0:
                     return
                 else:
                     inner_depth -= 1
                     for link in trigger_links:
-                        query_start = '[{1}|{2}'.format(link, key_relation)
+                        query_start = '[{0}|{1}'.format(link, key_relation)
                         query_end = query_start + '|\xff'
                         new_links = await redis_conn.execute('ZRANGEBYLEX', self.key_graph, query_start, query_end)
                         print(inner_depth)
